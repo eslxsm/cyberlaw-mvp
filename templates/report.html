@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Report a Cybercrime</h2>
+<form method="post">
+    <label>Type of Crime:</label>
+    <select name="crime" required>
+        <option value="">-- Select --</option>
+        <option value="Phishing">Phishing</option>
+        <option value="Online Fraud">Online Fraud</option>
+        <option value="Cyber Harassment">Cyber Harassment</option>
+        <option value="Identity Theft">Identity Theft</option>
+    </select>
+
+    <label>What happened?</label>
+    <textarea name="details" rows="5" placeholder="Describe the incident in your words..." required></textarea>
+
+    <button type="submit" class="btn">Get Legal Help</button>
+</form>
+
+{% if response %}
+<hr>
+<h3>🔍 Legal Advice:</h3>
+<div class="response-box">{{ response | safe }}</div>
+
+<h3>📝 Generate FIR</h3>
+<form method="post" action="/fir">
+    <input type="hidden" name="crime" value="{{ crime }}">
+    <input type="hidden" name="details" value="{{ user_input }}">
+    <input type="hidden" name="legal_advice" value="{{ response }}">
+
+    <label>Full Name:</label>
+    <input type="text" name="name" required>
+
+    <label>Email ID:</label>
+    <input type="email" name="email" required>
+
+    <button type="submit" class="btn">Download FIR</button>
+</form>
+{% endif %}
+{% endblock %}
